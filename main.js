@@ -1,221 +1,150 @@
-import { AudioManager } from './audio_manager.js';
-import { FragmentationRenderer } from './fragmentation_renderer.js';
+/**
+ * SingulAI Pen - Premium Industrial Interaction Logic
+ */
 
-class SingulAIApp {
-    constructor() {
-        this.assets = null;
-        this.audioManager = null;
-        this.fragRenderer = null;
-        this.climaxOverlay = null;
-        this.syncMeter = { fill: null, value: null };
-        this.init();
+document.addEventListener('DOMContentLoaded', async () => {
+    lucide.createIcons();
+    gsap.registerPlugin(ScrollTrigger);
+
+
+    gsap.from('.hero-content > *', {
+        opacity: 0,
+        y: 30,
+        stagger: 0.15,
+        duration: 1.2,
+        ease: "power3.out"
+    });
+
+
+    try {
+        const response = await fetch('technical_data.json');
+        const data = await response.json();
+        setupTechnicalView(data.labels);
+    } catch (e) {
+        console.error("Technical data load failed", e);
     }
 
-    async init() {
-        await this.loadAssets();
-        this.initLucide();
-        this.initHUD();
-        this.initCursor();
-        this.initClimaxOverlay();
-        this.initFragmentation();
-        this.initParticles();
-        this.initAnimations();
-        this.audioManager = new AudioManager(this.assets.audio);
-        this.initAudioTriggers();
-    }
+    function setupTechnicalView(labels) {
+        const container = document.getElementById('technical-labels-container');
+        const svg = document.getElementById('tech-svg-lines');
+        if (!container || !svg) return;
 
-    async loadAssets() {
-        try {
-            const response = await fetch('assets.json');
-            this.assets = await response.json();
+        labels.forEach((label, idx) => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'tech-callout';
+            wrapper.style.left = label.x;
+            wrapper.style.top = label.y;
             
-            document.getElementById('hero-img').src = this.assets.images.hero;
-            document.getElementById('ruptura-img').src = this.assets.images.ruptura;
-            document.getElementById('node-img').src = this.assets.images.sovereign_node;
-            document.getElementById('engine-img').src = this.assets.images.ollama;
-        } catch (e) {
-            console.warn("Assets not found, using fallback placeholders");
-
-        }
-    }
-
-    initLucide() {
-        lucide.createIcons();
-    }
-
-    initHUD() {
-        this.syncMeter.fill = document.getElementById('sync-fill');
-        this.syncMeter.value = document.getElementById('sync-value');
-
-        setInterval(() => {
-            const val = 97 + Math.random() * 2.9;
-            if (this.syncMeter.fill) {
-                this.syncMeter.fill.style.width = `${Math.min(val, 100)}%`;
-                this.syncMeter.value.innerText = `${Math.min(val, 100).toFixed(1)}%`;
-            }
-        }, 800);
-    }
-
-    initAudioTriggers() {
-        document.querySelectorAll('a, button, .glass-card').forEach(el => {
-            el.addEventListener('mouseenter', () => this.audioManager?.playSfx('hover'));
-            el.addEventListener('click', () => this.audioManager?.playSfx('click'));
-        });
-    }
-
-    initCursor() {
-        const cursor = document.getElementById('custom-cursor');
-        const follower = document.querySelector('.cursor-follower');
-
-        window.addEventListener('mousemove', (e) => {
-            gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
-            gsap.to(follower, { x: e.clientX - 20, y: e.clientY - 20, duration: 0.3 });
-        });
-    }
-
-    initClimaxOverlay() {
-        this.climaxOverlay = document.createElement('div');
-        this.climaxOverlay.className = 'climax-bloom';
-        document.body.appendChild(this.climaxOverlay);
-    }
-
-    initFragmentation() {
-        this.fragRenderer = new FragmentationRenderer('webgl-container');
-        this.fragRenderer.init();
-    }
-
-    initParticles() {
-        const container = document.getElementById('canvas-container');
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        container.appendChild(canvas);
-
-        let particles = [];
-        const particleCount = 40;
-
-        const resize = () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        };
-
-        class Particle {
-            constructor() { this.reset(); }
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.2;
-                this.vy = (Math.random() - 0.5) * 0.2;
-                this.size = Math.random() * 1.0;
-                this.alpha = Math.random() * 0.3;
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(0, 243, 255, ${this.alpha})`;
-                ctx.fill();
-            }
-        }
-
-        const init = () => {
-            resize();
-            for (let i = 0; i < particleCount; i++) particles.push(new Particle());
-        };
-
-        const animate = () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animate);
-        };
-
-        window.addEventListener('resize', resize);
-        init();
-        animate();
-    }
-
-    initAnimations() {
-        gsap.registerPlugin(ScrollTrigger);
+            wrapper.innerHTML = `
+                <div class="callout-content">
+                    <div class="callout-header" style="border-left: 2px solid ${label.color}">
+                        <span class="callout-title" style="color: ${label.color}">${label.title}</span>
+                        <span class="callout-id">SEC_${idx + 100}</span>
+                    </div>
+                    <p class="callout-sub">${label.subtitle}</p>
+                </div>
+                <div class="callout-dot" style="background: ${label.color}"></div>
+            `;
+            
+            container.appendChild(wrapper);
 
 
-        ScrollTrigger.create({
-            onUpdate: (self) => {
-                const velocity = Math.abs(self.getVelocity()) / 2000;
-                this.fragRenderer.scrollVelocity = gsap.utils.clamp(0, 0.4, velocity);
-            }
-        });
-
-        const titles = gsap.utils.toArray('.focal-blur-title');
-        titles.forEach(title => {
-            gsap.fromTo(title, 
-                { filter: 'blur(15px)', opacity: 0, y: 30 },
-                { 
-                    filter: 'blur(0px)', 
-                    opacity: 1, 
-                    y: 0,
-                    duration: 1.2, 
-                    scrollTrigger: {
-                        trigger: title,
-                        start: "top 90%",
-                        end: "top 40%",
-                        scrub: true,
-                    }
-                }
-            );
-        });
-
-        const dynamicText = document.querySelector('.dynamic-typography');
-        if (dynamicText) {
-            ScrollTrigger.create({
-                onUpdate: (self) => {
-                    const velocity = Math.abs(self.getVelocity());
-                    const spacing = gsap.utils.mapRange(0, 4000, 0, 0.2, velocity);
-                    gsap.to(dynamicText, {
-                        letterSpacing: `${spacing}em`,
-                        duration: 0.3,
-                        overwrite: 'auto'
-                    });
-                }
+            gsap.from(wrapper, {
+                scrollTrigger: {
+                    trigger: "#engineering",
+                    start: "top 40%"
+                },
+                opacity: 0,
+                x: idx % 2 === 0 ? -40 : 40,
+                duration: 1,
+                delay: idx * 0.15,
+                ease: "power2.out"
             });
-        }
-
-        ScrollTrigger.create({
-            trigger: ".section-curator",
-            start: "top bottom",
-            end: "top top",
-            scrub: 1,
-            onUpdate: (self) => {
-                this.fragRenderer.updateTransition(self.progress);
-            }
-        });
-
-        const climaxTl = gsap.timeline({
-            scrollTrigger: {
-                trigger: "#engine",
-                start: "top 60%",
-                end: "bottom bottom",
-                scrub: 1.5
-            }
-        });
-
-        climaxTl.to({}, {
-            duration: 1,
-            onUpdate: () => {
-                const p = climaxTl.progress();
-                const intensity = p * 4.0;
-                const convergence = gsap.utils.clamp(0, 1, (p - 0.2) * 1.5);
-                this.fragRenderer.updateClimax(intensity, convergence);
-            }
-        });
-
-        gsap.utils.toArray(".glitch-reveal").forEach(el => {
-            gsap.to(el, { opacity: 1, filter: "blur(0px)", y: 0, duration: 1.5, ease: "expo.out", delay: 0.2 });
         });
     }
-}
 
-window.singulai_app = new SingulAIApp();
+
+    const startBtn = document.getElementById('start-auth');
+    const signatureTrace = document.getElementById('signature-trace');
+    const seal = document.getElementById('auth-status-seal');
+    const touchPoint = document.getElementById('touch-point');
+
+    let isAuthenticating = false;
+
+    startBtn.addEventListener('click', () => {
+        if (isAuthenticating) return;
+        isAuthenticating = true;
+
+        const tl = gsap.timeline({
+            onComplete: () => { isAuthenticating = false; }
+        });
+
+
+        gsap.set(signatureTrace, { strokeDashoffset: 1000 });
+        gsap.set(seal, { scale: 1, borderColor: "rgba(255,255,255,0.05)" });
+        seal.innerHTML = `<i data-lucide="loader-2" class="text-cyan-500 w-8 h-8 animate-spin"></i>`;
+        lucide.createIcons();
+
+
+        tl.to(signatureTrace, {
+            strokeDashoffset: 0,
+            duration: 3,
+            ease: "power1.inOut",
+            onUpdate: function() {
+
+                const pathLength = signatureTrace.getTotalLength();
+                const progress = this.progress();
+                const point = signatureTrace.getPointAtLength(progress * pathLength);
+                gsap.set(touchPoint, {
+                    x: point.x - 200, // adjust based on SVG viewBox center
+                    y: point.y - 100,
+                    opacity: 1
+                });
+            }
+        });
+
+        tl.to(touchPoint, { opacity: 0, duration: 0.3 });
+
+
+        tl.to(seal, {
+            borderColor: "#22c55e", // Green-500
+            backgroundColor: "rgba(34, 197, 94, 0.1)",
+            duration: 0.5,
+            scale: 1.1
+        });
+
+        tl.add(() => {
+            seal.innerHTML = `<i data-lucide="check-circle" class="text-green-500 w-8 h-8"></i>`;
+            lucide.createIcons();
+        });
+
+        tl.to(seal, {
+            scale: 1,
+            boxShadow: "0 0 30px rgba(34, 197, 94, 0.3)",
+            duration: 0.8,
+            ease: "back.out"
+        });
+
+
+        tl.add(() => {
+            const msg = document.createElement('div');
+            msg.className = 'fixed bottom-10 left-1/2 -translate-x-1/2 bg-green-500/20 text-green-400 text-[10px] font-mono px-6 py-2 border border-green-500/50 uppercase tracking-[0.3em] rounded-sm z-50';
+            msg.innerText = "AUTHENTICATION_SUCCESSFUL // BLOCK_MINTED";
+            document.body.appendChild(msg);
+            gsap.from(msg, { y: 20, opacity: 0 });
+            gsap.to(msg, { y: -20, opacity: 0, delay: 3, onComplete: () => msg.remove() });
+        });
+    });
+
+
+    window.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 20;
+        const y = (e.clientY / window.innerHeight - 0.5) * 20;
+        gsap.to('.hero-image-wrapper', {
+            x: x,
+            y: y,
+            duration: 2,
+            ease: "power2.out"
+        });
+    });
+});

@@ -1,0 +1,44 @@
+{
+  "labels": [
+    {
+      "id": "ai-affective",
+      "title": "Módulo de IA Afetiva",
+      "subtitle": "Interpretação de estados emocionais no traço",
+      "x": "22%",
+      "y": "35%",
+      "color": "#00f2ff"
+    },
+    {
+      "id": "blockchain-crypt",
+      "title": "Criptografia Blockchain",
+      "subtitle": "Hash imutável por assinatura",
+      "x": "48%",
+      "y": "62%",
+      "color": "#a78bfa"
+    },
+    {
+      "id": "bio-360",
+      "title": "Biometria 360°",
+      "subtitle": "Mapeamento dermopapilar total",
+      "x": "72%",
+      "y": "30%",
+      "color": "#00f2ff"
+    },
+    {
+      "id": "ocular-cam",
+      "title": "Microcâmera Ocular",
+      "subtitle": "Reconhecimento de intenção via íris",
+      "x": "35%",
+      "y": "15%",
+      "color": "#ffffff"
+    },
+    {
+      "id": "feedback-led",
+      "title": "Haptic LED Feedback",
+      "subtitle": "Confirmação de cápsula ativada",
+      "x": "12%",
+      "y": "75%",
+      "color": "#00f2ff"
+    }
+  ]
+}
