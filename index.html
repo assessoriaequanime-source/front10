@@ -8,61 +8,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-black overflow-x-hidden">
+<body class="bg-black">
     <div id="custom-cursor"></div>
     <div class="cursor-follower"></div>
     <div id="canvas-container"></div>
 
-    <!-- Terminal Overlay -->
-    <div id="terminal" class="terminal-container hidden fixed inset-0 z-[100] bg-black/90 backdrop-blur-xl p-8 font-mono">
-        <div class="max-w-4xl mx-auto h-full flex flex-col">
-            <div class="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
-                <div class="flex gap-2">
-                    <div class="w-3 h-3 rounded-full bg-red-500/50"></div>
-                    <div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
-                    <div class="w-3 h-3 rounded-full bg-green-500/50"></div>
-                </div>
-                <div class="text-[10px] text-white/40 tracking-widest uppercase">SingulAI_Root_Access // Session: 0x82...</div>
-                <button id="close-terminal" class="text-white/40 hover:text-white transition-colors">
-                    <i data-lucide="x" class="w-4 h-4"></i>
-                </button>
-            </div>
-            <div id="terminal-output" class="flex-grow overflow-y-auto text-cyan-400 text-xs space-y-2 custom-scrollbar">
-                <p>> Initializing local node...</p>
-                <p>> Scanning neural pathways...</p>
-                <p>> Status: Awaiting command.</p>
-            </div>
-            <div class="mt-4 flex gap-2 items-center">
-                <span class="text-white/40 font-mono">></span>
-                <input type="text" id="terminal-input" class="bg-transparent border-none outline-none text-white w-full" placeholder="Enter command..." autofocus>
-            </div>
-        </div>
-    </div>
-
-    <!-- Portal Modal -->
-    <div id="sovereignty-portal" class="fixed inset-0 z-[110] hidden flex items-center justify-center bg-black/40 backdrop-blur-2xl">
-        <div class="glass-card p-12 max-w-2xl text-center border-gold/40 relative overflow-hidden">
-            <div class="portal-glow"></div>
-            <h2 class="text-6xl font-bold-wide text-gold mb-6 relative z-10">SOVEREIGNTY ATTAINED</h2>
-            <p class="text-white/60 mb-12 relative z-10 leading-relaxed">The threshold has been breached. Your intelligence is no longer tethered to the legacy mesh. Welcome to the Golden State of processing.</p>
-            <button id="close-portal" class="bg-gold text-black px-12 py-4 font-bold uppercase tracking-[0.2em] relative z-10 hover:brightness-110 transition-all">
-                Enter Void
-            </button>
-        </div>
-    </div>
-
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 px-8 py-6 flex justify-between items-center backdrop-blur-md border-b border-white/5">
         <div class="text-xl font-bold-wide tracking-tighter">SingulAI<span class="text-cyan-400">.</span></div>
-        <div class="hidden md:flex gap-8 text-[10px] font-mono uppercase tracking-widest text-white/60">
+        <div class="flex gap-8 text-xs font-mono uppercase tracking-widest text-white/60">
             <a href="#hero" class="hover:text-cyan-400 transition-colors">Origins</a>
+            <a href="#ruptura" class="hover:text-cyan-400 transition-colors">Rupture</a>
             <a href="#node" class="hover:text-cyan-400 transition-colors">Sovereignty</a>
-            <a href="#oracle" class="hover:text-cyan-400 transition-colors">Oracle</a>
-            <a href="#omega" class="hover:text-cyan-400 transition-colors">Index Ω</a>
-            <a href="#curator" class="hover:text-cyan-400 transition-colors">Curator</a>
+            <a href="#engine" class="hover:text-cyan-400 transition-colors">Engine</a>
         </div>
         <button class="glass-card px-6 py-2 text-[10px] font-mono tracking-widest hover:bg-white hover:text-black transition-all">
             CONNECT_WALLET
@@ -76,19 +36,19 @@
         </button>
     </div>
 
-    <main id="main-content">
+    <main>
         <!-- Section 1: Hero -->
-        <section id="hero" class="relative overflow-hidden flex items-center">
+        <section id="hero" class="relative overflow-hidden">
             <div class="absolute inset-0 z-0 opacity-40">
                 <img id="hero-img" src="" alt="Sacred Geometry" class="w-full h-full object-cover">
             </div>
-            <div class="relative z-10 max-w-5xl mx-auto w-full">
+            <div class="relative z-10 max-w-5xl mx-auto">
                 <p class="font-mono text-cyan-400 text-xs mb-4 tracking-[0.5em] uppercase">Status: Online // Local Node</p>
-                <h1 class="text-7xl md:text-9xl font-bold-wide mb-8 leading-none glitch-reveal">
+                <h1 class="text-7xl md:text-9xl font-bold-wide mb-8 leading-none glitch-reveal" id="hero-title">
                     The Singularity <br><span class="cyber-gradient-text">won't be streamed.</span>
                 </h1>
                 <p class="text-xl text-white/60 max-w-2xl font-light leading-relaxed glitch-reveal">
-                    Welcome to the era of <strong>Sovereign Intelligence</strong>. SingulAI is an extension of your consciousness running on your own metal.
+                    Welcome to the era of <strong>Sovereign Intelligence</strong>. SingulAI is not a tool; it is an extension of your consciousness running on your own metal.
                 </p>
             </div>
             <div class="scroll-indicator">
@@ -96,20 +56,41 @@
             </div>
         </section>
 
-        <!-- Section 2: Sovereign Node -->
+        <!-- Section 2: Ruptura -->
+        <section id="ruptura" class="bg-zinc-950">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="order-2 md:order-1">
+                    <div class="glass-card p-1">
+                        <img id="ruptura-img" src="" alt="Cloud Rupture" class="w-full grayscale hover:grayscale-0 transition-all duration-700">
+                    </div>
+                </div>
+                <div class="order-1 md:order-2">
+                    <h2 class="text-5xl font-bold-wide mb-6">Corporate <br>Blackboxes <br>are <span class="text-purple-600">Data Prisons</span>.</h2>
+                    <p class="text-white/50 text-lg mb-8">
+                        Centralized AI is an advanced form of servitude. We break the umbilical cord to the cloud to forge a network of indomitable nodes.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 font-mono text-[10px] text-cyan-400">
+                        <div class="border border-white/10 p-4">/ DECENTRALIZED_CONSENSUS</div>
+                        <div class="border border-white/10 p-4">/ ZERO_KNOWLEDGE_PROOFS</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Sovereign Node -->
         <section id="node" class="relative">
             <div class="max-w-7xl mx-auto w-full">
-                <div class="bento-grid h-auto md:h-[600px]">
-                    <div class="col-span-12 md:col-span-8 row-span-4 glass-card relative overflow-hidden p-8 md:p-12 flex flex-col justify-end min-h-[400px]">
-                        <img id="node-img" src="" alt="AI Core" class="absolute top-0 right-0 w-full h-full md:w-2/3 md:h-full object-cover opacity-60 mix-blend-screen core-interactable">
-                        <div class="relative z-10 pointer-events-none">
+                <div class="bento-grid h-[600px]">
+                    <div class="col-span-12 md:col-span-8 row-span-4 glass-card relative overflow-hidden p-12 flex flex-col justify-end">
+                        <img id="node-img" src="" alt="AI Core" class="absolute top-0 right-0 w-2/3 h-full object-cover opacity-60 mix-blend-screen">
+                        <div class="relative z-10">
                             <h3 class="text-4xl font-bold-wide mb-4">Your Hardware, <br>Your Jurisdiction.</h3>
-                            <p class="text-white/60 max-w-md uppercase text-xs tracking-widest">No proprietary APIs. No third-party censorship. Only local truth processing.</p>
+                            <p class="text-white/60 max-w-md uppercase text-xs tracking-widest">No proprietary APIs. No third-party censorship. Only the biometry of truth processed locally.</p>
                         </div>
                     </div>
                     <div class="col-span-12 md:col-span-4 row-span-2 glass-card p-8 flex flex-col justify-center border-cyan-400/30">
                         <div class="text-3xl font-bold-wide text-cyan-400 mb-2">0.0ms</div>
-                        <p class="font-mono text-[10px] text-white/40 uppercase tracking-widest">Latency_Network_Bypass</p>
+                        <p class="font-mono text-[10px] text-white/40">LATENCY_NETWORK_BYPASS</p>
                     </div>
                     <div class="col-span-12 md:col-span-4 row-span-2 glass-card p-8 flex items-center gap-4">
                         <i data-lucide="shield-check" class="text-purple-500 w-8 h-8"></i>
@@ -122,184 +103,25 @@
             </div>
         </section>
 
-        <!-- Section 3: Oracle Handshake -->
-        <section id="oracle" class="bg-[#050505] relative overflow-hidden border-y border-white/5">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-0 h-full items-stretch">
-                <div class="flex flex-col justify-center p-12 border-r border-white/5">
-                    <span class="text-cyan-500 font-mono text-[10px] mb-4 tracking-[0.3em]">SECURE_PROTOCOL_02</span>
-                    <h2 class="text-5xl font-mono font-bold mb-8 glitch-text" data-text="ORACLE HANDSHAKE">ORACLE HANDSHAKE</h2>
-                    <div class="space-y-6 text-white/50 font-mono text-sm leading-relaxed">
-                        <p>> Establishing handshake with peer nodes...</p>
-                        <p>> Validating zero-knowledge proof architecture.</p>
-                        <p>> The Oracle doesn't see your data, only its truth.</p>
-                        <div class="pt-8 flex gap-4">
-                            <div class="h-1 w-20 bg-cyan-500/20 rounded-full overflow-hidden">
-                                <div class="h-full bg-cyan-500 animate-pulse-fast"></div>
-                            </div>
-                            <span class="text-[10px] animate-pulse">ENCRYPTING_SESSION</span>
-                        </div>
-                    </div>
+        <!-- Section 4: Engine Intro -->
+        <section id="engine" class="bg-black">
+            <div class="text-center max-w-4xl mx-auto">
+                <img id="engine-img" src="" alt="Ollama Stream" class="w-48 h-48 mx-auto mb-12 rounded-full border-2 border-cyan-400 p-2 object-cover">
+                <h2 class="text-6xl font-bold-wide mb-8 tracking-tighter">Ollama: Raw Inference.</h2>
+                <div class="flex justify-center gap-4 mb-12">
+                    <span class="px-4 py-2 border border-white/10 font-mono text-xs">LLAMA_3.1</span>
+                    <span class="px-4 py-2 border border-white/10 font-mono text-xs">MISTRAL_7B</span>
+                    <span class="px-4 py-2 border border-white/10 font-mono text-xs">LOCAL_GEN_AI</span>
                 </div>
-                <!-- Oracle Flow Graph Implementation -->
-                <div class="relative overflow-hidden group bg-[#080808] min-h-[500px]" id="oracle-graph-container">
-                    <div class="absolute inset-0 z-0 flex items-center justify-center">
-                        <svg id="oracle-flow-graph" width="100%" height="100%" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" class="overflow-visible">
-                            <defs>
-                                <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                                    <feGaussianBlur stdDeviation="3" result="blur" />
-                                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                                </filter>
-                                <linearGradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" style="stop-color:#D4AF37;stop-opacity:1" />
-                                    <stop offset="100%" style="stop-color:#FFD700;stop-opacity:1" />
-                                </linearGradient>
-                            </defs>
-                            
-                            <!-- Connection Lines -->
-                            <path id="path-ollama" class="flow-line" d="M400,300 L200,150" fill="none" stroke="rgba(0, 243, 255, 0.2)" stroke-width="2" />
-                            <path id="path-n8n" class="flow-line" d="M400,300 L600,200" fill="none" stroke="rgba(0, 243, 255, 0.2)" stroke-width="2" />
-                            <path id="path-blockchain" class="flow-line" d="M400,300 L400,500" fill="none" stroke="rgba(0, 243, 255, 0.2)" stroke-width="2" />
-
-                            <!-- Animated Flow Strokes -->
-                            <path class="flow-anim-stroke" d="M400,300 L200,150" fill="none" stroke="var(--cyber-cyan)" stroke-width="2" stroke-dasharray="10, 20" />
-                            <path class="flow-anim-stroke" d="M400,300 L600,200" fill="none" stroke="var(--cyber-cyan)" stroke-width="2" stroke-dasharray="15, 25" />
-                            <path class="flow-anim-stroke" d="M400,300 L400,500" fill="none" stroke="var(--cyber-cyan)" stroke-width="2" stroke-dasharray="8, 15" />
-
-                            <!-- Nodes -->
-                            <g id="node-central" class="graph-node cursor-pointer">
-                                <circle cx="400" cy="300" r="30" fill="rgba(0,0,0,0.8)" stroke="var(--cyber-cyan)" stroke-width="2" filter="url(#glow)" />
-                                <text x="400" y="305" font-family="JetBrains Mono" font-size="10" fill="white" text-anchor="middle">ROOT</text>
-                            </g>
-
-                            <g id="node-ollama" class="graph-node cursor-pointer" data-tech="ollama">
-                                <rect x="150" y="110" width="100" height="80" rx="4" fill="rgba(0,0,0,0.6)" stroke="var(--cyber-cyan)" stroke-width="1" />
-                                <text x="200" y="155" font-family="JetBrains Mono" font-size="12" fill="white" text-anchor="middle" font-weight="bold">Ollama</text>
-                            </g>
-
-                            <g id="node-n8n" class="graph-node cursor-pointer" data-tech="n8n">
-                                <rect x="550" y="160" width="100" height="80" rx="4" fill="rgba(0,0,0,0.6)" stroke="var(--cyber-cyan)" stroke-width="1" />
-                                <text x="600" y="205" font-family="JetBrains Mono" font-size="12" fill="white" text-anchor="middle" font-weight="bold">n8n</text>
-                            </g>
-
-                            <g id="node-blockchain" class="graph-node cursor-pointer" data-tech="blockchain">
-                                <rect x="350" y="460" width="100" height="80" rx="4" fill="rgba(0,0,0,0.6)" stroke="var(--cyber-cyan)" stroke-width="1" />
-                                <text x="400" y="505" font-family="JetBrains Mono" font-size="12" fill="white" text-anchor="middle" font-weight="bold">Blockchain</text>
-                            </g>
-                        </svg>
-                    </div>
-
-                    <!-- Tooltips Overlay -->
-                    <div id="oracle-tooltips" class="absolute inset-0 pointer-events-none z-10">
-                        <div id="tooltip-ollama" class="graph-tooltip">
-                            <p class="text-xs font-bold text-cyan-400 mb-1">OLLAMA CORE</p>
-                            <p class="text-[9px] opacity-60">LLM Latency: <span class="val-latency">12ms</span></p>
-                            <p class="text-[9px] opacity-60">Tokens/s: <span class="val-tokens">42.4</span></p>
-                        </div>
-                        <div id="tooltip-n8n" class="graph-tooltip">
-                            <p class="text-xs font-bold text-cyan-400 mb-1">N8N ENGINE</p>
-                            <p class="text-[9px] opacity-60">Flow Status: ACTIVE</p>
-                            <p class="text-[9px] opacity-60">Sync: <span class="val-sync">100%</span></p>
-                        </div>
-                        <div id="tooltip-blockchain" class="graph-tooltip">
-                            <p class="text-xs font-bold text-cyan-400 mb-1">ON-CHAIN VALIDATOR</p>
-                            <p class="text-[9px] opacity-60 font-mono">Hash: <span class="val-hash">0x72a...</span></p>
-                            <p class="text-[9px] opacity-60">Gas: 21 gwei</p>
-                        </div>
-                    </div>
-
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent pointer-events-none"></div>
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[100px] md:text-[200px] font-bold text-white/[0.02] pointer-events-none select-none">
-                        HANDSHAKE
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 4: Índice Ω -->
-        <section id="omega" class="bg-black py-24">
-            <div class="max-w-7xl mx-auto w-full px-8">
-                <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
-                    <div>
-                        <h2 class="text-6xl font-bold-wide">ÍNDICE Ω</h2>
-                        <p class="text-white/40 font-mono uppercase text-xs tracking-[0.4em] mt-4">Real-time Resonance Monitoring</p>
-                    </div>
-                    <div class="text-right font-mono text-xs text-cyan-400">
-                        <div id="resonance-value">RES: 0.00%</div>
-                        <div id="stability-status" class="text-white/20 uppercase">STABILITY: STABILIZING</div>
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="md:col-span-2 glass-card h-[400px] p-8 relative">
-                        <canvas id="resonance-chart"></canvas>
-                        <div class="absolute top-4 right-4 text-[10px] font-mono text-white/20">WAVE_FORM_BETA</div>
-                    </div>
-                    <div class="glass-card p-8 flex flex-col justify-between">
-                        <img id="omega-img" src="" class="w-full aspect-square object-cover mb-8 rounded mix-blend-screen opacity-70">
-                        <div>
-                            <h4 class="font-bold text-lg mb-2">Neural Balance</h4>
-                            <p class="text-xs text-white/40 leading-relaxed">Synchronization of local weights across the mesh network. Reach 100% to breach sovereignty.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 5: Particle Bio-rhythm -->
-        <section id="particle" class="relative flex items-center justify-center overflow-hidden min-h-screen bg-[#020202]">
-            <div class="soft-tech-gradient"></div>
-            <div class="relative z-10 max-w-4xl text-center px-8">
-                <div class="mb-12 inline-block">
-                    <div class="p-4 rounded-full border border-white/10 backdrop-blur-3xl">
-                        <img id="particle-img" src="" class="w-32 h-32 rounded-full object-cover">
-                    </div>
-                </div>
-                <h2 class="text-5xl md:text-7xl font-light tracking-tight mb-8">Particle <span class="italic font-serif">Bio-rhythm</span></h2>
-                <p class="text-lg text-white/50 leading-relaxed font-light font-mono text-sm">
-                    Your AI adapts to your biological clock. Processing power peaks when you do, resting when your neurons recover. It's not just tech; it's rhythm.
+                <p class="text-white/60 text-xl font-light">
+                    We use the <strong>Ollama</strong> engine to ensure zero latency and absolute privacy. Your models, your rules. Knowledge resides where action happens.
                 </p>
-                <div class="mt-12 flex justify-center gap-12 text-[10px] font-mono tracking-[0.3em] uppercase opacity-40">
-                    <div class="flex flex-col items-center gap-2"><div class="w-1 h-1 bg-white rounded-full"></div> CIRCADIAN</div>
-                    <div class="flex flex-col items-center gap-2"><div class="w-1 h-1 bg-white rounded-full"></div> ADAPTIVE</div>
-                    <div class="flex flex-col items-center gap-2"><div class="w-1 h-1 bg-white rounded-full"></div> FLUID</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 6: Digital Curator -->
-        <section id="curator" class="majestic-curator relative min-h-screen flex items-center">
-            <div class="absolute inset-0 opacity-30 grayscale curator-bg-img">
-                <img id="curator-img" src="" class="w-full h-full object-cover">
-            </div>
-            <div class="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent"></div>
-            
-            <div class="relative z-10 max-w-7xl mx-auto px-8 w-full">
-                <div class="max-w-2xl">
-                    <span class="text-[#D4AF37] font-mono text-xs tracking-[0.5em] mb-6 block uppercase">Final Evolution Stage</span>
-                    <h2 class="text-7xl md:text-8xl font-bold-wide mb-8 leading-tight">Digital <br><span class="text-[#D4AF37]">Curator</span>.</h2>
-                    <p class="text-xl text-white/60 mb-12 font-light">
-                        Ascend beyond raw compute. Become the architect of your own cognitive ecosystem. The Curator waits for your command.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-6">
-                        <button class="bg-[#D4AF37] hover:bg-[#F4CF57] text-black px-12 py-5 font-bold uppercase tracking-widest transition-all">
-                            Ascend Now
-                        </button>
-                        <button class="glass-card px-12 py-5 text-white font-bold uppercase tracking-widest border-[#D4AF37]/30 hover:border-[#D4AF37]">
-                            View Protocol
-                        </button>
-                    </div>
-                </div>
             </div>
         </section>
     </main>
 
-    <footer class="py-12 border-t border-white/5 px-8 flex flex-col md:flex-row justify-between items-center text-[10px] font-mono text-white/30 uppercase tracking-[0.3em] gap-4">
-        <div>© 2026 SingulAI // Decentralized Intelligence</div>
-        <div class="flex gap-8">
-            <a href="#" class="hover:text-white transition-colors">Twitter (X)</a>
-            <a href="#" class="hover:text-white transition-colors">Manifesto</a>
-            <a href="#" class="hover:text-white transition-colors">Raw Terminal</a>
-        </div>
+    <footer class="py-12 border-t border-white/5 px-8 flex justify-between items-center text-[10px] font-mono text-white/30 uppercase tracking-[0.3em]">
+        <div>© 2026 SingulAI // Protocol 0x1</div>
         <div>Codify your freedom.</div>
     </footer>
 
