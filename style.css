@@ -1,0 +1,125 @@
+:root {
+    --accent: #3b82f6;
+    --glass: rgba(255, 255, 255, 0.03);
+    --border: rgba(255, 255, 255, 0.08);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
+    background-color: #000;
+    color: #fff;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+/* Apple-style Luxury UI */
+.glass-effect {
+    backdrop-filter: blur(50px) saturate(180%);
+    -webkit-backdrop-filter: blur(50px) saturate(180%);
+    background: var(--glass);
+    border: 1px solid var(--border);
+}
+
+.glass-button {
+    @apply px-12 py-6 rounded-full text-[10px] font-bold tracking-[0.4em] uppercase transition-all duration-1000 relative overflow-hidden flex items-center justify-center cursor-pointer;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+}
+
+.glass-button.primary {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.glass-button.secondary {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.glass-button:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+/* Premium Border Effect */
+.premium-border::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1.5px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, transparent 40%, transparent 60%, rgba(255, 255, 255, 0.2) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+/* Official Logo - Metallic Vortex */
+.ring-vortex {
+    transition: transform 0.5s ease-out;
+}
+
+.ring-1 {
+    animation: rotate-metallic 25s linear infinite;
+}
+
+.ring-2 {
+    animation: rotate-metallic 18s linear infinite reverse;
+}
+
+@keyframes rotate-metallic {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.animate-pulse-slow {
+    animation: pulse-glow 8s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.1); }
+}
+
+/* Content Sections */
+.pillar-card {
+    @apply border-l border-white/5 pl-10 py-4 transition-all duration-700;
+}
+
+.pillar-card:hover {
+    border-left-color: white;
+}
+
+/* Modal UI Enhancements */
+#demo-modal {
+    will-change: opacity, transform;
+}
+
+.terminal-line {
+    opacity: 0;
+    transform: translateX(-10px);
+    animation: terminal-appear 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes terminal-appear {
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* Scroll Smoothing */
+html.lenis {
+    height: auto;
+}
+  
+.lenis.lenis-smooth {
+    scroll-behavior: auto;
+}
+  
+.lenis.lenis-stopped {
+    overflow: hidden;
+}

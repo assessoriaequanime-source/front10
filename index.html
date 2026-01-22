@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SingulAI | Intelligence Beyond Limits</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#000000] text-white overflow-hidden">
+    
+    <!-- Audio Layer -->
+    <audio id="audio-ambient" loop src="https://assets.mixkit.co/music/preview/mixkit-deep-space-97.mp3"></audio>
+    <audio id="audio-voice-pt" src="https://actions.google.com/sounds/v1/science_fiction/high_tech_scanner.ogg"></audio>
+    <audio id="audio-voice-en" src="https://actions.google.com/sounds/v1/science_fiction/sci_fi_device_power_up.ogg"></audio>
+
+    <!-- Navigation Elements -->
+    <div id="global-lang" class="fixed top-8 left-8 md:left-auto md:right-8 flex items-center gap-6 text-[10px] font-medium text-white/30 tracking-[0.3em] z-[150] opacity-0">
+        <button id="lang-pt" class="lang-btn hover:text-white transition-all">PT</button>
+        <div class="h-3 w-[1px] bg-white/10"></div>
+        <button id="lang-en" class="lang-btn hover:text-white transition-all">EN</button>
+    </div>
+
+    <button id="mute-toggle" class="fixed bottom-8 right-8 z-[150] w-12 h-12 flex items-center justify-center rounded-full glass-effect border-white/5 text-white/20 hover:text-white transition-all opacity-0 pointer-events-none">
+        <i data-lucide="volume-2" id="mute-icon" class="w-4 h-4"></i>
+    </button>
+
+    <!-- Portal Entrance Overlay -->
+    <div id="splash-screen" class="fixed inset-0 z-[200] bg-black flex flex-col items-center justify-center px-6">
+        <div id="txt-splash-protocol" class="text-[9px] tracking-[1em] text-white/20 uppercase mb-12 font-light">Initiating Protocol</div>
+        <button id="btn-enter-exp" class="glass-button primary border-white/10 min-w-[300px] group">
+            <span id="txt-enter-exp" class="relative z-10">Entrar na Experiência</span>
+            <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        </button>
+        <div id="txt-splash-recommendation" class="mt-12 text-[8px] text-white/10 tracking-[0.5em] uppercase font-light">Melhor experiência com áudio</div>
+    </div>
+
+    <!-- Cinematic Background -->
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <canvas id="portal-canvas" class="w-full h-full opacity-0"></canvas>
+    </div>
+
+    <!-- Black Mask for Fade Transition -->
+    <div id="black-out" class="fixed inset-0 z-[100] bg-black pointer-events-none"></div>
+
+    <!-- The Official Singul AI Portal Logo UI -->
+    <div id="portal-ui" class="fixed inset-0 z-50 flex flex-col items-center justify-center opacity-0 pointer-events-none">
+        
+        <div id="official-logo-stage" class="relative flex flex-col items-center justify-center mb-16 select-none">
+            <!-- Background Glows -->
+            <div class="absolute w-[400px] h-[400px] bg-blue-600/10 rounded-full blur-[120px] animate-pulse-slow"></div>
+            
+            <!-- Metallic Vortex & Circuitry -->
+            <div class="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
+                <!-- Outer Metallic Ring -->
+                <div class="absolute inset-0 border border-white/5 rounded-full ring-vortex ring-1"></div>
+                <!-- Black Central Void -->
+                <div class="absolute w-24 h-24 bg-black rounded-full shadow-[0_0_80px_rgba(59,130,246,0.3)] z-10"></div>
+                <!-- Glowing Electric Blue Path -->
+                <div class="absolute inset-8 border-2 border-blue-500/40 rounded-full ring-vortex ring-2 shadow-[0_0_40px_rgba(59,130,246,0.5)]"></div>
+                
+                <!-- Circuitry Pattern -->
+                <svg class="absolute inset-0 w-full h-full opacity-40 z-0" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="48" fill="none" stroke="rgba(59, 130, 246, 0.4)" stroke-width="0.2" />
+                    <path d="M50 2 L50 20 M50 80 L50 98 M2 50 L20 50 M80 50 L98 50" stroke="rgba(255, 255, 255, 0.2)" stroke-width="0.5" />
+                    <circle cx="50" cy="50" r="35" fill="none" stroke="rgba(59, 130, 246, 0.2)" stroke-width="0.1" stroke-dasharray="2, 2" />
+                </svg>
+
+                <!-- Brand Name -->
+                <div class="z-20 text-center pointer-events-none">
+                    <div class="text-5xl md:text-6xl font-bold tracking-[0.3em] text-white/95 uppercase drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">Singul AI</div>
+                    <div id="omega-meta" class="text-[9px] tracking-[1em] text-white/40 mt-6 uppercase font-medium">Digital Intelligence Protocol</div>
+                </div>
+            </div>
+        </div>
+
+        <h1 id="hero-title" class="text-sm md:text-base font-light tracking-[0.8em] uppercase text-white/50 mb-16 text-center">Do Nascimento à Eternidade</h1>
+
+        <!-- Interaction Nodes -->
+        <div id="portal-buttons" class="flex flex-col md:flex-row gap-8 items-center opacity-0 translate-y-8">
+            <button id="btn-site" class="glass-button premium-border min-w-[240px]">
+                <span id="txt-site">Ir ao Site</span>
+            </button>
+            <button id="btn-demo" class="glass-button secondary min-w-[240px]">
+                <span id="txt-demo">Demonstração</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content Layer -->
+    <main id="site-content" class="relative z-10 opacity-0 pointer-events-none">
+        <nav class="fixed top-0 w-full p-10 flex justify-between items-center z-20">
+            <div class="text-white/80 font-bold tracking-[0.6em] text-xs uppercase">SINGULAI</div>
+            <div id="txt-nav-version" class="text-[8px] text-white/20 tracking-[0.4em] uppercase">Protocol v2.0 • Active</div>
+        </nav>
+
+        <section class="min-h-screen flex items-center justify-center px-8 py-40">
+            <div class="max-w-7xl w-full">
+                <div class="mb-32 text-center">
+                    <h2 id="pillars-title" class="text-4xl md:text-6xl font-extralight mb-8 tracking-tight text-white/90">A Nova Era da Consciência</h2>
+                    <div class="h-px w-24 bg-gradient-to-r from-transparent via-white/20 to-transparent mx-auto"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
+                    <div class="pillar-card group">
+                        <div class="w-12 h-12 flex items-center justify-center mb-10 text-white/30 group-hover:text-white transition-colors">
+                            <i data-lucide="cpu" class="w-8 h-8 stroke-[1px]"></i>
+                        </div>
+                        <h3 id="p1-title" class="text-xs font-semibold mb-6 text-white tracking-[0.4em] uppercase">Mapeamento</h3>
+                        <p id="p1-desc" class="text-white/40 text-sm leading-relaxed font-light">Digitalização total de traços cognitivos e padrões de resposta neural.</p>
+                    </div>
+
+                    <div class="pillar-card group">
+                        <div class="w-12 h-12 flex items-center justify-center mb-10 text-white/30 group-hover:text-white transition-colors">
+                            <i data-lucide="shield-check" class="w-8 h-8 stroke-[1px]"></i>
+                        </div>
+                        <h3 id="p2-title" class="text-xs font-semibold mb-6 text-white tracking-[0.4em] uppercase">Soberania</h3>
+                        <p id="p2-desc" class="text-white/40 text-sm leading-relaxed font-light">Criptografia quântica para garantir que seu legado seja apenas seu.</p>
+                    </div>
+
+                    <div class="pillar-card group">
+                        <div class="w-12 h-12 flex items-center justify-center mb-10 text-white/30 group-hover:text-white transition-colors">
+                            <i data-lucide="infinity" class="w-8 h-8 stroke-[1px]"></i>
+                        </div>
+                        <h3 id="p3-title" class="text-xs font-semibold mb-6 text-white tracking-[0.4em] uppercase">Continuidade</h3>
+                        <p id="p3-desc" class="text-white/40 text-sm leading-relaxed font-light">Evolução autônoma do seu Gêmeo Digital através de ciclos de aprendizado.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="py-24 text-center border-t border-white/5">
+            <div id="txt-footer-copyright" class="text-[8px] tracking-[0.8em] text-white/10 uppercase">&copy; 2026 SINGULAI • GLOBAL SOVEREIGNTY NETWORK</div>
+        </footer>
+    </main>
+
+    <!-- Modal: Demonstration -->
+    <div id="demo-modal" class="fixed inset-0 z-[99999] flex items-center justify-center opacity-0 pointer-events-none bg-black/95 backdrop-blur-[100px] transition-all duration-700" style="display: none;">
+        <!-- Interaction Overlay for outside clicks -->
+        <div id="modal-overlay" class="absolute inset-0 z-0"></div>
+        
+        <button id="close-modal" class="fixed top-12 right-12 w-14 h-14 flex items-center justify-center rounded-full glass-effect border-white/10 text-white/40 hover:text-white hover:border-white/20 transition-all z-[100]">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+
+        <div class="relative z-10 w-full max-w-6xl px-8 grid lg:grid-cols-2 gap-20 items-center">
+            <div class="aspect-square bg-white/[0.02] rounded-[40px] overflow-hidden glass-effect border-white/5 shadow-2xl">
+                <canvas id="memory-canvas" class="w-full h-full"></canvas>
+            </div>
+            
+            <div class="flex flex-col gap-10">
+                <div class="space-y-4">
+                    <div id="modal-status-tag" class="text-[9px] tracking-[0.5em] text-blue-500 uppercase font-bold">Active Simulation</div>
+                    <h2 id="modal-title" class="text-5xl md:text-6xl font-extralight text-white leading-tight">Neural Synthesis</h2>
+                </div>
+                
+                <p id="modal-desc" class="text-white/40 text-lg font-light leading-relaxed max-w-md">Visualização em tempo real da rede de sinapses digitais em processo de estabilização e integração sistêmica.</p>
+                
+                <div class="bg-black/40 p-10 rounded-3xl border border-white/5 font-mono text-[10px] leading-relaxed text-white/30 backdrop-blur-md">
+                    <div id="terminal-logs" class="space-y-3 min-h-[120px]"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>
